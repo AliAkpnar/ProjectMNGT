@@ -2,20 +2,17 @@ package com.aliakpinar.fullstack.web;
 
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
-import javax.validation.executable.ValidateOnExecution;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,4 +46,22 @@ public class ProjectController {
 		Project project1 = projectService.saveOrUpdateProject(project); // veri tabanına kaydet
 		return new ResponseEntity<Project>(project1,HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/{projectId}")
+	public ResponseEntity<?> getProjectById(@PathVariable String projectId){
+		Project project = projectService.findProjectById(projectId);
+		return new ResponseEntity<Project>(project, HttpStatus.OK);
+	}
+	
+	@GetMapping("/all")
+	public Iterable<Project> getAllProjects(){
+		return projectService.findAllProject();
+	}
+	
+	@DeleteMapping("/{projectId}")
+	public ResponseEntity<?> deleteProject(@PathVariable("projectId") String projectId){
+		projectService.deleteProjectById(projectId);
+		return new ResponseEntity<String>("Project with ID : " +projectId + " - was deleted" , HttpStatus.OK);
+	}
+
 }

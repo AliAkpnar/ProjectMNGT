@@ -6,6 +6,9 @@ import com.aliakpinar.fullstack.entity.Project;
 
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 	
-	Iterable<Project> findAllById(Iterable<Long> id);
+	Project findByProjectIdentifier(String projectId);
+	@Override
+	Iterable<Project> findAll();
+
 
 }
